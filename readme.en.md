@@ -37,7 +37,7 @@ We are going to need to create a policy and role using IAM, for this:
    * **Review Policy**
     * Give name *"my-glue-policy"*
    * **Create policy**
-    * Return to the role tab in the browser and click the**refresh**icon
+    * Return to the role tab in the browser and click the **refresh** icon
     * Select policy created
    * **Next: Tags**->**Next: Review**
     * Give name *"my-glue-role"*
@@ -48,13 +48,13 @@ We are going to need to create a policy and role using IAM, for this:
     * Go to service**AWS Glue**
     * Go to section**Crawlers**
     * Click on**Add crawler**
-    * Crawler name * "my-crawler-source" * ->**Next**
+    * Crawler name *"my-crawler-source"* ->**Next**
     * Data stores -> Next
-    * Choose**S3**and select * Specified path in another account *, enter * "s3: // amazon-reviews-pds / parquet / product_category = Electronics" *
+    * Choose**S3**and select *Specified path in another account*, enter *"s3: // amazon-reviews-pds / parquet / product_category = Electronics"*
    * **Add another store "No"**->**Next**
    * **Choose an existing IAM role**, select the created role ->**Next**
     * Frequency**Run on Demand**->**Next**
-    * Add database ->**Database name*** "db-source" * ->**Create**->**Next**
+    * Add database ->**Database name***"db-source"* ->**Create**->**Next**
    * **Finish**
     * Click on**Run it now**
 
@@ -66,41 +66,41 @@ We are going to need to create a policy and role using IAM, for this:
 
     * Go to the service**S3**
    * **Create bucket**
-   * **Bucket name*** "bucket-glue-target-'last-name-name'" * (must be unique for the region) 
+   * **Bucket name***"bucket-glue-target-'last-name-name'"* (must be unique for the region) 
    * **Create**
-    * Repeat for bucket * "bucket-glue-libraries-'last-name-name'" * (must be unique for the region)
+    * Repeat for bucket *"bucket-glue-libraries-'last-name-name'"* (must be unique for the region)
 
 4. Configure Glue Job
 
     * Go to AWS Glue ->**Jobs**->**Add job**
-    * Give name * "my-job-glue" * and choose created role
+    * Give name *"my-job-glue"* and choose created role
     * Jump to the * This job runs * section, select * A new script to be authored by you * ->**Next**
    * **Save job and edit script**
-    * Copy the content of the file * "glue-job.py" *
-    * Change * line 22 * ​​to the path of the Glue job created * "s3: // bucket-glue-target-'last-name-surname' / target / products" *
+    * Copy the content of the file *"glue-job.py"*
+    * Change * line 22 * ​​to the path of the Glue job created *"s3: // bucket-glue-target-'last-name-surname' / target / products"*
     * Click**Save**and then**Run job**
 
 5. Launch crawler on target S3
 
-    * Same steps as in * "Step 2" * with the name * "my-crawler-target" *
-   * **Data store S3*** "s3: // bucket-glue-target-'last-name' / target / products" *
-   * **Add database**, name * "db-target" * ->**Next**->**Finish**
+    * Same steps as in *"Step 2"* with the name *"my-crawler-target"*
+   * **Data store S3***"s3: // bucket-glue-target-'last-name' / target / products"*
+   * **Add database**, name *"db-target"* ->**Next**->**Finish**
     * Click on**Run it now**
 
 6. Integrate Deequ in Glue Job for data analysis (Spark Scala)
 
-    * Go to S3 select bucket * "bucket-glue-libraries-'name-surname'" *,**Create folder**name * "jar" *, enter the created folder and click**Upload**, select the JAR * "deequ-1.0.1.jar" * and click**Upload**
+    * Go to S3 select bucket *"bucket-glue-libraries-'name-surname'"*,**Create folder**name *"jar"*, enter the created folder and click**Upload**, select the JAR *"deequ-1.0.1.jar"* and click**Upload**
     * Go to AWS Glue ->**Jobs**->**Add job**
-    * Give name * "my-job-analyze-deequ" * and choose created role
+    * Give name *"my-job-analyze-deequ"* and choose created role
     * Change**Glue version**to * Spark 2.4, Scala (Glue version 1.0)
     * Change**This job runs**to * A new script to be authored by you *
-    * In**Scala class name**write * "GlueApp" *
-   * **Script file name*** "glue-deequ-integration-analyze" *
-    * In**Security configuration, script libraries, and job parameters (optional)**,**Dependent jars path*** "s3: //bucket-glue-libraries-'name-lastname'/jar/deequ-1.0. 1.jar "* ->**Next**
+    * In**Scala class name**write *"GlueApp"*
+   * **Script file name***"glue-deequ-integration-analyze"*
+    * In**Security configuration, script libraries, and job parameters (optional)**,**Dependent jars path***"s3: //bucket-glue-libraries-'name-lastname'/jar/deequ-1.0. 1.jar "* ->**Next**
    * **Save job and edit script**
-    * Copy the code from the file * "glue-analyze-deequ.scala" *
-    * Change on * line 19 * to path * "s3: // bucket-glue-target-'last-name-name' / target / deequ / products_analysis" *
-    * Change * line 21 * to the path of the Glue job created * "s3: // bucket-glue-target-'last-name' / target / products" *
+    * Copy the code from the file *"glue-analyze-deequ.scala"*
+    * Change on * line 19 * to path *"s3: // bucket-glue-target-'last-name-name' / target / deequ / products_analysis"*
+    * Change * line 21 * to the path of the Glue job created *"s3: // bucket-glue-target-'last-name' / target / products"*
    * **Save**
    * **Run job**
 
@@ -111,7 +111,7 @@ We are going to need to create a policy and role using IAM, for this:
     * Go to the**target**crawler ->**Edit**
    * **Next**->**Next**->**Next**
     * In * Add another data store * choose**Yes**->**Next**
-    * In * Include path * write * "s3: // bucket-glue-target-'surname-name' / target / deequ / products_analysis" * ->**Next**until finishing the process
+    * In * Include path * write *"s3: // bucket-glue-target-'surname-name' / target / deequ / products_analysis"* ->**Next**until finishing the process
     * Run the crawler again so that the new table is added to the Glue Catalog
 
 
@@ -124,16 +124,16 @@ We are going to need to create a policy and role using IAM, for this:
 9. Integrate Deequ in Glue Job for data testing (Spark Scala)
 
     * Go to AWS Glue ->**Jobs**->**Add job**
-    * Give name * "MY-job-validate-deequ" * and choose created role
+    * Give name *"MY-job-validate-deequ"* and choose created role
     * Change**Glue version**to * Spark 2.4, Scala (Glue version 1.0)
     * Change**This job runs**to * A new script to be authored by you *
-    * In**Scala class name**write * "GlueApp" *
-    * **Script file name*** "glue-deequ-integration-validate" *
-    * In**Security configuration, script libraries, and job parameters (optional)**,**Dependent jars path*** "s3: //bucket-glue-libraries-'name-lastname'/jar/deequ-1.0. 1.jar "* ->**Next**
+    * In**Scala class name**write *"GlueApp"*
+    * **Script file name***"glue-deequ-integration-validate"*
+    * In**Security configuration, script libraries, and job parameters (optional)**,**Dependent jars path***"s3: //bucket-glue-libraries-'name-lastname'/jar/deequ-1.0. 1.jar "* ->**Next**
     * **Save job and edit script**
-    * Copy the code from the file * "script-glue-deequ.scala" *
-    * Change in * line 19 * to the path * "s3: // bucket-glue-target-'name-surname' / target / deequ / products_results" *
-    * Change * line 21 * to the path of the Glue job created * "s3: // bucket-glue-target-'last-name' / target / products" *
+    * Copy the code from the file *"script-glue-deequ.scala"*
+    * Change in * line 19 * to the path *"s3: // bucket-glue-target-'name-surname' / target / deequ / products_results"*
+    * Change * line 21 * to the path of the Glue job created *"s3: // bucket-glue-target-'last-name' / target / products"*
     * **Save**
     * **Run job**
 
@@ -144,7 +144,7 @@ We are going to need to create a policy and role using IAM, for this:
     * Go to the**target**crawler ->**Edit**
    * **Next**->**Next**->**Next**
     * In * Add another data store * choose**Yes**->**Next**
-    * In * Include path * write * "s3: // bucket-glue-target-'surname-name' / target / deequ / products_results" * ->**Next**until finishing the process
+    * In * Include path * write *"s3: // bucket-glue-target-'surname-name' / target / deequ / products_results"* ->**Next**until finishing the process
     * Run the crawler again so that the new table is added to the Glue Catalog
 
 11. Check results with Athena
@@ -162,7 +162,7 @@ We are going to need to create a policy and role using IAM, for this:
     * Go to the Glue console to the section * Triggers * -> * Add trigger *
     * Give a name to the trigger
     * Set * Trigger type * to * Job Events *
-    * Select the job * "my-job-glue" * ->**Next**
-    * In * Choose jobs to trigger * select the job * "my-job-analyze-deequ" * ->**Next**->**Finish**
+    * Select the job *"my-job-glue"* ->**Next**
+    * In * Choose jobs to trigger * select the job *"my-job-analyze-deequ"* ->**Next**->**Finish**
 
-    Now every time the job * "my-job-glue" * is executed, at the end of its execution and if this is successful the job * "my-job-analyze-deequ" * will start
+    Now every time the job *"my-job-glue"* is executed, at the end of its execution and if this is successful the job *"my-job-analyze-deequ"* will start
